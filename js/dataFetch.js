@@ -1,10 +1,12 @@
+import config from "../config.js";
+
 export const CAT_API_BRD = "https://api.thecatapi.com/v1/breeds";
 export const CAT_API_URL = "https://api.thecatapi.com/v1/images/search?has_breeds=1";
-export const CAT_API_KEY = "live_XFDulpkchxTEY8cczVZwB7y8cWuDjosje2YJuiotpSWcRCFQQspdEntpJVxoIJqg";
+export const CAT_API_KEY = config.CAT_API_KEY;
 
 export const DOG_API_BRD = "https://api.thedogapi.com/v1/breeds";
 export const DOG_API_URL = "https://api.thedogapi.com/v1/images/search?has_breeds=1";
-export const DOG_API_KEY = "live_k6Hdb8yLShViDQ4nfVUxZ617VH8jG60fMlrXuB8OurToBTZrSGDwJiis8NXWd0wF";
+export const DOG_API_KEY = config.DOG_API_KEY;
 
 async function fetchData(url, api_key) {
     try {
