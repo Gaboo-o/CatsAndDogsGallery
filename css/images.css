@@ -1,0 +1,44 @@
+.image-container {
+    position: relative;
+    border: 2px solid #fffafb;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-container:hover {
+    transform: scale(0.95);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 10;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fffafb;
+    opacity: 0; /* start invisible */
+    transition: opacity 0.3s ease;
+}
+
+.image-container:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-container:active .image-overlay {
+    opacity: 1;
+}
+
+.image-overlay p {
+    padding: 1em 0;
+    margin: 0 auto;
+    font-size: 1em;
+    font-weight: bold;
+}

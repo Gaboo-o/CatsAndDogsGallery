@@ -3,11 +3,27 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Title</title> 
+    <title>Dogs & Cats</title> 
     <link href="css/index.css" rel="stylesheet">
   </head>
   <body>
-    <div class="image-grid"></div>
-    <script src="js/index.js"></script>
+    <section class="title">
+      <img src="images/kittyo.png" alt="Cat Silhouette">
+      <h1>DOGs & CATs <br> GALLERY </h1>
+      <img src="images/doggie.png" alt="Dog Silhouette">
+    </section>
+
+    <section class="search">
+      <div class="search-bar">
+        <p>&#128270</p>
+        <input type="text" id="searchInput" placeholder="Search..">
+        <button type="submit" id="searchButton">Search</button>
+      </div>
+    </section>
+
+    <div id="imageGrid" class="image-grid">
+    </div>
+
+    <script type="module" src="js/index.js"></script>
   </body>
 </html>

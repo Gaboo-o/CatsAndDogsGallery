@@ -1,0 +1,22 @@
+.image-grid {
+    position: relative;
+    display: grid;
+    grid-gap: 0.6rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-auto-rows: 40vh;
+    grid-auto-flow: dense;
+    margin: 0 0.5em;
+}
+
+.horizontal {
+    grid-column: span 2;
+}
+
+.vertical {
+    grid-row: span 2;
+}
+
+.square {
+    grid-column: span 2;
+    grid-row: span 2;
+}

@@ -1,82 +1,86 @@
-const CAT_API_URL = "https://api.thecatapi.com/v1/images/search?has_breeds=1";
-const DOG_API_URL = "https://api.thedogapi.com/v1/images/search?has_breeds=1";
+import { fetchBreedData, fetchBreedImages } from "./dataFetch.js";
+import { searchBreed } from "./dataSearch.js";
+import { loadImages, imagesNotFound } from "./dataLoad.js";
+import { initializePopup, openPopup } from "./imagePopup.js";
 
-async function fetchImage(url) {
-    try {
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-            throw new Error(response.status);
-        }
+const IMAGES_TO_LOAD = 10;
 
-        return await response.json();
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
+/*
+*  Get / Initialize HTML
+*/
 
-async function loadImages() {
-    const imageGrid = document.querySelector(".image-grid");
+const imageGrid = document.getElementById("imageGrid");
+initializePopup();
 
-    // Fetch cat images
-    const catImages = await Promise.all(
-        Array.from({ length: 5 }, () => {
-            return fetchImage(CAT_API_URL);
-        })
-    );
-    // Fetch dog images
-    const dogImages = await Promise.all(
-        Array.from({ length: 5 }, () => {
-            return fetchImage(DOG_API_URL);
-        })
-    );
+/*
+*  Fetch array of all cat/dog breeds
+*/
 
-    // Combine arrays
-    const allImages = [...catImages, ...dogImages];
-    allImages.sort(() => Math.random() - 0.5);
+let catBreeds = [];
+let dogBreeds = [];
 
-    const sizes = ["horizontal", "vertical", "square", ""];
+(async () => {
+    [catBreeds, dogBreeds] = await fetchBreedData();
+    
+    console.log(catBreeds);
+    console.log(dogBreeds);   
+})();
 
-    allImages.forEach((images) => {
-        const imgElement = document.createElement("img");
-        imgElement.src = images[0].url;
-        
-        const pElement = document.createElement("p");
-        pElement.innerHTML = "test";
+/*
+*  Search for, retrieve, and load cat/dog breed images from array
+*/
 
-        // console.log(images[0].breeds[0].name);
+async function handleImages() {
+    const breedName = document.getElementById("searchInput").value.trim().toLowerCase();
+    const [catMatches, dogMatches] = await searchBreed(breedName, catBreeds, dogBreeds);
 
-        const overlayDiv = document.createElement("div");
-        overlayDiv.classList.add("image-overlay");
-        overlayDiv.appendChild(pElement);
+    // Tag entries with their type
+    const taggedCatMatches = catMatches.map(match => ({ ...match, type: "cat" }));
+    const taggedDogMatches = dogMatches.map(match => ({ ...match, type: "dog" }));
 
-        const divElement = document.createElement("div");
-        divElement.classList.add("image-container");
-        divElement.appendChild(imgElement);
-        divElement.appendChild(overlayDiv);
+    // Combine and sort entries by similarity
+    const allMatches = [...taggedCatMatches, ...taggedDogMatches];
+    allMatches.sort((a, b) => a.difference - b.difference);
 
-        // Randomly assign a size class
-        const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
-        if (randomSize) {
-            divElement.classList.add(randomSize);
-        }
-
-        imageGrid.appendChild(divElement);
-    });
-}
-
-function isBottomOfPage() {
-    return window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
-}
-
-function handleScroll() {
-    if (isBottomOfPage()) {
-        loadImages();
+    if (allMatches.length === 0) {
+        imagesNotFound(imageGrid);
+    } else {
+        await Promise.all(allMatches.map(async match => {
+            for (const breed of match.breed) {
+                const breedImages = await fetchBreedImages(breed, match.type, IMAGES_TO_LOAD);
+                
+                loadImages(imageGrid, breedImages, openPopup);
+            }
+        }));
     }
 }
 
-window.addEventListener("scroll", handleScroll);
+// window.addEventListener("scroll", handleScroll);
+// function isBottomOfPage() {
+//     return window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+// }
+// async function handleScroll() {
+//     if (isBottomOfPage()) {
+//         await loadBatch();
+//     }
+// }
 
-// Initial load
-loadImages();
+// remove all child elements from a parent element in the DOM
+const deleteChildElements = (parent) => {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+};
+
+document.getElementById("searchButton").addEventListener("click", () => {
+    deleteChildElements(imageGrid);
+    handleImages();
+});
+
+document.getElementById('searchInput').addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        deleteChildElements(imageGrid);
+        handleImages();
+    }
+});
