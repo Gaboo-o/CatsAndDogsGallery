@@ -12,7 +12,7 @@ async function fetchData(url, api_key) {
     try {
         const response = await fetch(url, {
             headers: {
-                'x-api-key': api_key
+                "x-api-key": api_key
             }
         });
 

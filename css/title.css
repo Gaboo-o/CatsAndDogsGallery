@@ -1,0 +1,30 @@
+.title {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.title h1 {
+    font-size: 4em;
+    text-align: center;
+    color: #fffafb;
+}
+
+.title img {
+    height: 100%;
+    width: auto;
+    align-self: flex-end;
+    filter: brightness(0);
+}
+
+@media (max-width: 1000px) {
+    .title h1 {
+        font-size: 2em;
+    }
+
+    .title img {
+        max-height: 120px;
+        max-width: 120px;
+    }
+}

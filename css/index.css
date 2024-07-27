@@ -1,31 +1,13 @@
+@import url("title.css");
 @import url("imageGrid.css");
 @import url("images.css");
 @import url("searchBar.css");
 @import url("imagePopup.css");
 @import url("noResults.css");
+@import url("footer.css");
 
 html, body {
     margin: 0;
     font-family: cursive, sans-serif;
     background-color: #2b2c28;
-}
-
-.title {
-    display: flex;
-    flex-direction: row;
-    margin-top: 1em;
-    justify-content: center;
-}
-
-.title h1 {
-    font-size: 4em;
-    margin-bottom: 1em;
-    text-align: center;
-    color: #fffafb;
-}
-
-.title img {
-    height: 100%;
-    align-self: flex-end;
-    filter: brightness(0);
 }

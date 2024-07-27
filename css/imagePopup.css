@@ -26,6 +26,17 @@
     animation: animatetop 0.4s;
 }
 
+@media (max-width: 1000px) {
+    .popup-content {
+        width: 85%;
+        height: 85%;
+    }
+
+    .popup-image {
+        height: 75%;
+    }
+}
+
 @keyframes animatetop {
     from {top: -300px; opacity: 0}
     to {top: 0; opacity: 1}
@@ -35,7 +46,7 @@
     padding-top: 0.5em;
     border-top: 1px #fffafb solid;
     text-align: center;
-    font-size: 24px;
+    font-size: 1.5em;
     font-weight: bold;
     color: #fffafb;
 }
@@ -65,6 +76,7 @@
 }
 
 .popup-options {
+    position: relative;
     display: flex;
     flex-direction: row;
     padding: 0 2em;
@@ -84,17 +96,28 @@
 
 .popup-options div {
     flex: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
     padding: 0;
     margin: 0;
 }
 
 .popup-options img {
-    padding: 0;
-    margin: 0 auto -3.8rem;
+    position: absolute;
+    z-index: 2;
+    top: -80%;
+    left: 60%;
+    transform: translate(-50%, -50%); /* Center image */
+    width: 100%;
+    height: auto;
+    pointer-events: none; /* Click through */
     filter: brightness(0);
 }
 
 .popup-options button {
+    position: relative;
+    z-index: 1;
     padding: 1em 2em;
     margin-left: 2em;
     border: none;

@@ -55,16 +55,6 @@ async function handleImages() {
     }
 }
 
-// window.addEventListener("scroll", handleScroll);
-// function isBottomOfPage() {
-//     return window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
-// }
-// async function handleScroll() {
-//     if (isBottomOfPage()) {
-//         await loadBatch();
-//     }
-// }
-
 // remove all child elements from a parent element in the DOM
 const deleteChildElements = (parent) => {
     while (parent.firstChild) {
@@ -84,3 +74,19 @@ document.getElementById('searchInput').addEventListener("keydown", (event) => {
         handleImages();
     }
 });
+
+/**********************************************************************************/
+
+// Create footer element
+const footer = document.getElementById("copyright");
+
+// Get current year
+const today = new Date();
+const thisYear = today.getFullYear();
+
+// Create copyright element
+const copyright = document.createElement("p");
+copyright.innerHTML = `&copy; ${thisYear} Gabriel Valle. All rights reserved.`;
+
+// Append copyright element to footer
+footer.appendChild(copyright);
