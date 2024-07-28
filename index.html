@@ -3,35 +3,46 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dogs & Cats</title> 
+    
+    <title>Dogs&CatsGallery</title> 
+
+    <link href="https://fonts.googleapis.com/css?family=Sonsie One" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
   </head>
   <body>
+    <!-- Header -->
     <section class="title">
       <img src="images/catTitle.png" alt="Cat Silhouette">
       <h1>DOGs & CATs <br> GALLERY </h1>
       <img src="images/dogTitle.png" alt="Dog Silhouette">
     </section>
 
+    <!-- Search Bar -->
     <section class="search">
       <div class="search-bar">
+        <!-- Search Icon -->
         <p>&#128270</p>
         <input type="text" id="searchInput" placeholder="Search..">
         <button type="submit" id="searchButton">Search</button>
       </div>
     </section>
 
+    <!-- Image Grid -->
     <div id="imageGrid" class="image-grid">
     </div>
 
+    <!-- Footer -->
     <section class="footer">
       <p>A simple API Fetch project made with:</p>      
+      <!-- Cat API Logo -->
       <a href="https://www.thecatapi.com/" target="_blank" aria-label="The Cat API">
           <img src="images/theCatApiLogo.png" alt="theCatAPI">
       </a>
+      <!-- Dog API Logo -->
       <a href="https://www.thedogapi.com/" target="_blank" aria-label="The Dog API">
           <img src="images/theDogApiLogo.png" alt="theDogAPI">
       </a>      
+      <!-- Copyright -->
       <span id="copyright"></span>
     </section>
 
