@@ -17,7 +17,7 @@ const normalizeStr = (str) => {
 */
 
 const normalizeAndSplitStr = (str) => {
-    return str.toLowerCase().split(" ").map(substr => substr.replace(/[^a-z]/g, ""));
+    return str.toLowerCase().replace(/[^a-z\s]/g, "").trim().split(" ");
 };
 
 
@@ -71,7 +71,7 @@ const binarySearchChar = (arr, targetChar) => {
         // Find the middle index and get its key
         let centerPoint = Math.floor((leftBoundary + rightBoundary) / 2);
         // Get the middlePoint's key's first letter
-        let centerPointChar = arr[centerPoint][0][0].toLowerCase();
+        let centerPointChar = arr[centerPoint][0][0].toLowerCase();        
 
         // Compare centerPointChar with the target char
         if (centerPointChar < targetChar) {
@@ -84,12 +84,12 @@ const binarySearchChar = (arr, targetChar) => {
         } 
         else {
             // If first letter matches, go backwards to find the first entry
-            while (centerPoint > 0 && arr[centerPoint - 1][0].toLowerCase() === targetChar) {
-                centerPoint--;
+            while (centerPoint > 0 && arr[centerPoint - 1][0][0].toLowerCase() === targetChar) {
+                centerPoint--;                
             }
 
             return centerPoint;
-        }
+        }        
     }
 
     // No match found
@@ -115,7 +115,8 @@ const levenshteinDistance = (a, b) => {
         for (let j = 1; j <= b.length; j++) {
             if (a[i - 1] === b[j - 1]) {
                 matrix[i][j] = matrix[i - 1][j - 1];
-            } else {
+            } 
+            else {
                 matrix[i][j] = Math.min(
                     matrix[i - 1][j] + 1,
                     matrix[i][j - 1] + 1,
@@ -185,14 +186,21 @@ export const searchEntry = async (str, arr) => {
     // Normalize and split the search string into individual substrings
     const allSubstr = normalizeAndSplitStr(str);
 
+    //console.log(allSubstr);
+
     const allSplitStr = splitStringsArr(arr);
+
+    //console.log(allSplitStr);
 
     const searchWord = async (substr, allSplitStr) => {
         const firstLetter = substr[0];
+        //console.log(firstLetter);
         // Get the index of the first entry in the array with the matching first letter
         const startIndex = binarySearchChar(allSplitStr, firstLetter);
+        //console.log(startIndex);
         // Reduce array to start at index
         const reducedSplitStr = allSplitStr.slice(startIndex);
+        //console.log(reducedSplitStr);
 
         return findBestMatch(substr, reducedSplitStr);
     };
@@ -200,6 +208,8 @@ export const searchEntry = async (str, arr) => {
     // Make Promise to search for each word simultaneously and wait for them
     const searchPromises = allSubstr.map(substr => searchWord(substr, allSplitStr));
     const matches = await Promise.all(searchPromises);
+
+    //console.log(matches);
 
     return matches.flat();
 };

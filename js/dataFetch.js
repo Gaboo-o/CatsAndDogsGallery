@@ -21,7 +21,8 @@ async function fetchData(url, api_key) {
         }
 
         return await response.json();
-    } catch (error) {
+    } 
+    catch (error) {
         console.error(`Fetching error: ${error}`);
     }
 }

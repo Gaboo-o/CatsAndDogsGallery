@@ -24,12 +24,13 @@ let dogBreeds = [];
 *  Search for, retrieve, and load cat/dog breed images from array
 */
 
-const IMAGES_TO_LOAD = 10;
+const TOTAL_MATCHES = 5;
+const IMAGES_PER_MATCH = 10;
 
 async function handleImages() {
     const breedName = document.getElementById("searchInput").value.trim().toLowerCase();
 
-    // Perform search for cat and dog breeds concurrently
+    // Perform search for cat and dog breeds simultaneously
     const [catMatches, dogMatches] = await Promise.all([
         searchEntry(breedName, catBreeds),
         searchEntry(breedName, dogBreeds)
@@ -45,16 +46,24 @@ async function handleImages() {
 
     if (allMatches.length === 0) {
         imagesNotFound(imageGrid);
-    } else {
+    } 
+    else {
+        let matchesCount = 0;
+
         await Promise.all(allMatches.map(async match => {
-            for (const breed of match.breed) {
-                const breedImages = await fetchBreedImages(breed, match.type, IMAGES_TO_LOAD);
-                loadImages(imageGrid, breedImages, openPopup);
+            if (matchesCount < TOTAL_MATCHES) {
+                // Fecth images for each match and load them
+                for (const breed of match.breed) {
+                    const breedImages = await fetchBreedImages(breed, match.type, IMAGES_PER_MATCH);
+
+                    loadImages(imageGrid, breedImages, openPopup);
+                }
             }
+
+            matchesCount++;
         }));
     }
 }
-
 
 // remove all child elements from a parent element in the DOM
 const deleteChildElements = (parent) => {

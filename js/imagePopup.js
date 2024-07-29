@@ -4,13 +4,15 @@ let currentImageUrl = "";
 async function fetchBlob(proxyUrl, url) {
     try {
         const response = await fetch(proxyUrl + url);
+
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`HTTP error: ${response.status}`);
         }
 
         return await response.blob();
-    } catch (error) {
-        console.error('Failed to fetch Blob:', error);
+    } 
+    catch (error) {
+        console.error(`Fetching error: ${error}`);
         throw error;
     }
 }
@@ -67,7 +69,8 @@ export function initializePopup() {
                 document.body.removeChild(link);
 
                 URL.revokeObjectURL(blobUrl);
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error(`Fetching error downloadButton: ${error}`);
             }
         };
